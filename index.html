@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة النخبة للطباعة والتصوير</title>
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-color: #000000;
+            --secondary-color: #9900ff;
+            --white: #ffffff;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333333;
+        }
+        
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            color: var(--primary-color);
+            overflow-x: hidden;
+        }
+        
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .preloader.fade-out {
+            opacity: 0;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--light-gray);
+            border-top: 5px solid var(--secondary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .logo img{
+			height: 73;
+		}
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-box {
+            position: relative;
+            margin-left: 20px;
+        }
+        
+        .search-box input {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+            width: 200px;
+        }
+        
+        .search-box button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .order-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .order-btn:hover {
+            background-color: #7a00cc;
+        }
+        
+        /* WhatsApp Button */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background-color: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .whatsapp-btn i {
+            font-size: 30px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding-top: 80px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s, transform 1s;
+        }
+        
+        .hero.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+        
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+        
+        .hero-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .hero-btn:hover {
+            background-color: #7a00cc;
+        }
+        
+        /* Services Section */
+        .services {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+        
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: var(--dark-gray);
+            font-size: 18px;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+        
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .service-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .service-card:hover .service-img img {
+            transform: scale(1.1);
+        }
+        
+        .service-content {
+            padding: 20px;
+        }
+        
+        .service-content h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .service-content p {
+            color: var(--dark-gray);
+            margin-bottom: 15px;
+        }
+        
+        .service-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .service-btn:hover {
+            background-color: #7a00cc;
+        }
+        
+        /* Order Form Section */
+        .order-section {
+            background-color: var(--white);
+            padding: 100px 20px;
+        }
+        
+        .order-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--light-gray);
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .order-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+        
+        .step {
+            text-align: center;
+            position: relative;
+            flex: 1;
+        }
+        
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background-color: var(--secondary-color);
+            z-index: 1;
+        }
+        
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 10px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step.active .step-circle {
+            background-color: var(--primary-color);
+        }
+        
+        .step.completed .step-circle {
+            background-color: var(--secondary-color);
+        }
+        
+        .step p {
+            color: var(--dark-gray);
+        }
+        
+        .step.active p {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .order-form {
+            display: none;
+        }
+        
+        .order-form.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .file-upload {
+            border: 2px dashed #ddd;
+            padding: 30px;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        
+        .file-upload:hover {
+            border-color: var(--secondary-color);
+        }
+        
+        .file-upload input {
+            display: none;
+        }
+        
+        .file-upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--dark-gray);
+        }
+        
+        .file-upload-label i {
+            font-size: 40px;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+        
+        .preview-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .preview-title {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-prev {
+            background-color: #ddd;
+            color: var(--dark-gray);
+        }
+        
+        .btn-prev:hover {
+            background-color: #ccc;
+        }
+        
+        .btn-next {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-next:hover {
+            background-color: #7a00cc;
+        }
+        
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            width: 100%;
+        }
+        
+        .btn-submit:hover {
+            background-color: #333;
+        }
+        
+        /* Order Summary */
+        .order-summary {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        
+        .summary-title {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .summary-total {
+            font-weight: bold;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+        
+        /* Track Order Section */
+        .track-order {
+            padding: 100px 20px;
+            background-color: var(--light-gray);
+        }
+        
+        .track-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .track-form {
+            margin-bottom: 30px;
+        }
+        
+        .track-status {
+            margin-top: 30px;
+        }
+        
+        .status-steps {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .status-step {
+            display: flex;
+            margin-bottom: 30px;
+            position: relative;
+            padding-right: 30px;
+        }
+        
+        .status-step:last-child {
+            margin-bottom: 0;
+        }
+        
+        .status-step::before {
+            content: '';
+            position: absolute;
+            right: 9px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background-color: #ddd;
+        }
+        
+        .status-step.completed::before {
+            background-color: var(--secondary-color);
+        }
+        
+        .status-step:last-child::before {
+            display: none;
+        }
+        
+        .status-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin-left: 20px;
+            position: relative;
+            z-index: 1;
+            flex-shrink: 0;
+        }
+        
+        .status-step.completed .status-icon {
+            background-color: var(--secondary-color);
+        }
+        
+        .status-step.active .status-icon {
+            background-color: var(--primary-color);
+        }
+        
+        .status-content {
+            flex: 1;
+        }
+        
+        .status-content h4 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .status-step.completed .status-content h4,
+        .status-step.active .status-content h4 {
+            color: var(--primary-color);
+        }
+        
+        .status-content p {
+            color: var(--dark-gray);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 50px 20px 20px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-col h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-col ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-col ul li a:hover {
+            color: var(--white);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: var(--white);
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ccc;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            .nav-links {
+                margin-bottom: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .order-steps {
+                flex-direction: column;
+            }
+            
+            .step:not(:last-child)::after {
+                display: none;
+            }
+            
+            .step {
+                margin-bottom: 20px;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+        
+		.logo-container {
+    width: 150px; /* عرض مشابه للصورة */
+    height: auto;
+    text-align: center;
+    font-family: 'Arial', sans-serif; /* خط بسيط مشابه */
+}
+
+.logo-main {
+    font-size: 24px; /* حجم النص الرئيسي */
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.logo-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.logo-menu li {
+    font-size: 12px; /* حجم النصوص الصغيرة */
+    color: #666;
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+image.logo {
+	height: 73px;
+	width: auto;
+}
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<link rel="icon" href="images/logo.png" type="images/x-icon">
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- WhatsApp Button -->
+    <div class="whatsapp-btn">
+        <i class="fab fa-whatsapp"></i>
+    </div>
+    
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+				<img src="images/logo.png" alt="" height="70px">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#services">الخدمات</a></li>
+                <li><a href="#order">اطلب الآن</a></li>
+                <li><a href="#track">تتبع الطلب</a></li>
+                <li><a href="#contact">اتصل بنا</a></li>
+            </ul>
+            <div class="header-actions">
+                <div class="search-box">
+                    <input type="text" placeholder="ابحث عن خدمة...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <button class="order-btn">اطلب الآن</button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>مكتبة النخبة للطباعة والتصوير</h1>
+            <p>أفضل خدمات الطباعة والتصميم والتجليد بجودة عالية وسرعة في التنفيذ</p>
+            <button class="hero-btn">اطلب خدمتك الآن</button>
+        </div>
+    </section>
+    
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-title fade-in">
+            <h2>خدماتنا المتكاملة</h2>
+            <p>نقدم مجموعة واسعة من الخدمات المكتبية بجودة عالية</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card fade-in">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="طباعة وتصوير">
+                </div>
+                <div class="service-content">
+                    <h3>طباعة وتصوير</h3>
+                    <p>طباعة جميع المستندات والصور بجودة عالية وأحجام مختلفة</p>
+                    <button class="service-btn">اطلب الآن</button>
+                </div>
+            </div>
+            <div class="service-card fade-in">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="تصميم جرافيك">
+                </div>
+                <div class="service-content">
+                    <h3>تصميم جرافيك</h3>
+                    <p>تصميم بطاقات أعمال، بوسترات، شهادات، وغيرها</p>
+                   <a href="https://wa.me/201557686274"> <button class="service-btn">اطلب الآن</button></a>
+                </div>
+            </div>
+            <div class="service-card fade-in">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="تجليد وتكعيب">
+                </div>
+                <div class="service-content">
+                    <h3>تجليد وتكعيب</h3>
+                    <p>تجليد حراري، لولبي، بوكليت بجودة فائقة</p>
+                 <a href=""><button class="service-btn">اطلب الآن</button></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Order Section -->
+    <section class="order-section" id="order">
+        <div class="order-container">
+            <div class="order-steps">
+                <div class="step active">
+                    <div class="step-circle">1</div>
+                    <p>معلومات الطلب</p>
+                </div>
+                <div class="step">
+                    <div class="step-circle">2</div>
+                    <p>رفع الملفات</p>
+                </div>
+                <div class="step">
+                    <div class="step-circle">3</div>
+                    <p>تأكيد الطلب</p>
+                </div>
+            </div>
+            
+            <form id="orderForm">
+                <!-- Step 1: Order Information -->
+                <div class="order-form active" id="step1">
+                    <h3 class="form-title">معلومات الطلب الأساسية</h3>
+                    <div class="form-group">
+                        <label for="print-type">نوع الطباعة</label>
+                        <select id="print-type" required>
+                            <option value="">اختر نوع الطباعة...</option>
+                            <option value="bw">أبيض وأسود</option>
+                            <option value="color">ملون</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="copies">عدد النسخ</label>
+                        <input type="number" id="copies" min="1" value="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pages-per-sheet">عدد الصور في الوجه الواحد</label>
+                        <select id="pages-per-sheet">
+                            <option value="1">1 (صفحة كاملة)</option>
+                            <option value="2">2</option>
+                            <option value="4">4</option>
+                            <option value="6">6</option>
+                            <option value="8">8</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="print-sides">وجه الطباعة</label>
+                        <select id="print-sides">
+                            <option value="single">وجه واحد</option>
+                            <option value="double">وجهين</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="booklet">هل هو بوكليت؟</label>
+                        <select id="booklet">
+                            <option value="no">لا</option>
+                            <option value="yes">نعم</option>
+                        </select>
+                    </div>
+					<div class="form-group">
+                        <label for="booklet">هل هو تكعيب؟</label>
+                        <select id="booklet">
+                            <option value="no">لا</option>
+                            <option value="yes">نعم</option>
+                        </select>
+                    </div>
+					<div class="form-group">
+                        <label for="booklet">هل هوتجليد؟</label>
+                        <select id="booklet">
+                            <option value="no">لا</option>
+                            <option value="yes">نعم</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-next" onclick="nextStep(1)">التالي</button>
+                    </div>
+                </div>
+                
+                <!-- Step 2: File Upload -->
+                <div class="order-form" id="step2">
+                    <h3 class="form-title">رفع الملفات المطلوبة</h3>
+                    
+                    <div class="form-group">
+                        <label>رفع الملف</label>
+                        <div class="file-upload">
+                            <input type="file" id="file-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                            <label for="file-input" class="file-upload-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>انقر لرفع الملف أو اسحبه هنا</span>
+                                <small>الملفات المسموحة: PDF, Word, JPG, PNG</small>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="preview-container" id="preview-container" style="display: none;">
+                        <h4 class="preview-title">معاينة الطباعة</h4>
+                        <img id="preview-image" class="preview-image" src="" alt="معاينة الطباعة">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">ملاحظات على الطباعة</label>
+                        <textarea id="notes" placeholder="أي ملاحظات أو تعليمات خاصة بالطباعة..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="delivery-location">مكان التوصيل</label>
+                        <textarea id="notes" placeholder="اكتب عنوان التوصيل"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-prev" onclick="prevStep(2)">السابق</button>
+                        <button type="button" class="btn btn-next" onclick="nextStep(2)">التالي</button>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Order Confirmation -->
+                <div class="order-form" id="step3">
+                    <h3 class="form-title">تأكيد الطلب</h3>
+                    
+                    <div class="order-summary">
+                        <h4 class="summary-title">ملخص الطلب</h4>
+                        <div class="summary-item">
+                            <span>نوع الخدمة:</span>
+                            <span id="summary-service">طباعة وتصوير</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>نوع الطباعة:</span>
+                            <span id="summary-print-type">أبيض وأسود</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>عدد النسخ:</span>
+                            <span id="summary-copies">1</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>عدد الصور في الوجه:</span>
+                            <span id="summary-pages">1</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>وجه الطباعة:</span>
+                            <span id="summary-sides">وجه واحد</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>بوكليت:</span>
+                            <span id="summary-booklet">لا</span>
+                        </div>
+						                        <div class="summary-item">
+                            <span>تكعيب:</span>
+                            <span id="summary-booklet">لا</span>
+                        </div>
+						                        <div class="summary-item">
+                            <span>تجليد:</span>
+                            <span id="summary-booklet">لا</span>
+                        </div>
+                    <div class="form-group">
+                        <label for="customer-name">الاسم بالكامل</label>
+                        <input type="text" id="customer-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customer-phone">رقم الهاتف</label>
+                        <input type="tel" id="customer-phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customer-email">البريد الإلكتروني (اختياري)</label>
+                        <input type="email" id="customer-email">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-prev" onclick="prevStep(3)">السابق</button>
+                        <button type="submit" class="btn btn-submit">تأكيد الطلب</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+    
+    <!-- Track Order Section -->
+    <section class="track-order" id="track">
+        <div class="track-container">
+            <h2 class="section-title">تتبع حالة الطلب</h2>
+            <div class="track-form">
+                <div class="form-group">
+                    <label for="order-number">رقم الطلب</label>
+                    <input type="text" id="order-number" placeholder="أدخل رقم الطلب...">
+                </div>
+                <button class="btn btn-submit">تتبع الطلب</button>
+            </div>
+            
+            <div class="track-status">
+                <h3>حالة الطلب #12345</h3>
+                <div class="status-steps">
+                    <div class="status-step completed">
+                        <div class="status-icon"></div>
+                        <div class="status-content">
+                            <h4>تم استلام الطلب</h4>
+                            <p>تم استلام طلبك بنجاح وسيتم معالجته قريبًا</p>
+                        </div>
+                    </div>
+                    <div class="status-step active">
+                        <div class="status-icon"></div>
+                        <div class="status-content">
+                            <h4>قيد التنفيذ</h4>
+                            <p>جاري تنفيذ طلبك الآن</p>
+                        </div>
+                    </div>
+                    <div class="status-step">
+                        <div class="status-icon"></div>
+                        <div class="status-content">
+                            <h4>جاهز للاستلام</h4>
+                            <p>سيتم إعلامك عندما يكون طلبك جاهزًا</p>
+                        </div>
+                    </div>
+                    <div class="status-step">
+                        <div class="status-icon"></div>
+                        <div class="status-content">
+                            <h4>تم التسليم</h4>
+                            <p>تم تسليم طلبك بنجاح</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>عن المكتبة</h3>
+                <p>مكتبة النخبة تقدم خدمات الطباعة والتصوير والتجليد بجودة عالية وسرعة في التنفيذ منذ عام 2010.</p>
+            </div>
+            <div class="footer-col">
+                <h3>روابط سريعة</h3>
+                <ul>
+                    <li><a href="#home">الرئيسية</a></li>
+                    <li><a href="#services">الخدمات</a></li>
+                    <li><a href="#order">اطلب الآن</a></li>
+                    <li><a href="#track">تتبع الطلب</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>اتصل بنا</h3>
+                <ul>
+                    <li><i class="fas fa-phone"></i> 01557686274</li>
+                    <li><i class="fas fa-envelope"></i> omarzaye151@gmail.com</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>تابعنا</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 مكتبة 3print. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Preloader
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.preloader').classList.add('fade-out');
+                setTimeout(function() {
+                    document.querySelector('.preloader').style.display = 'none';
+                }, 500);
+            }, 2000);
+        });
+        
+        // Hero Animation
+        setTimeout(function() {
+            document.querySelector('.hero').classList.add('visible');
+        }, 2100);
+        
+        // Scroll Animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(element => {
+                fadeObserver.observe(element);
+            });
+        });
+        
+        // Form Steps Navigation
+        function nextStep(currentStep) {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.querySelector(`.step:nth-child(${currentStep})`).classList.remove('active');
+            document.querySelector(`.step:nth-child(${currentStep})`).classList.add('completed');
+            
+            const nextStep = currentStep + 1;
+            document.getElementById(`step${nextStep}`).classList.add('active');
+            document.querySelector(`.step:nth-child(${nextStep})`).classList.add('active');
+            
+            // Update summary
+            if (nextStep === 3) {
+                updateOrderSummary();
+            }
+        }
+        
+        function prevStep(currentStep) {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.querySelector(`.step:nth-child(${currentStep})`).classList.remove('active');
+            
+            const prevStep = currentStep - 1;
+            document.getElementById(`step${prevStep}`).classList.add('active');
+            document.querySelector(`.step:nth-child(${prevStep})`).classList.add('active');
+            document.querySelector(`.step:nth-child(${prevStep})`).classList.remove('completed');
+        }
+        
+        // File Upload Preview
+        document.getElementById('file-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview-image').src = e.target.result;
+                    document.getElementById('preview-container').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Update Order Summary
+        function updateOrderSummary() {
+            document.getElementById('summary-service').textContent = 
+                document.getElementById('service-type').options[document.getElementById('service-type').selectedIndex].text;
+            
+            document.getElementById('summary-print-type').textContent = 
+                document.getElementById('print-type').options[document.getElementById('print-type').selectedIndex].text;
+            
+            document.getElementById('summary-copies').textContent = 
+                document.getElementById('copies').value;
+            
+            document.getElementById('summary-pages').textContent = 
+                document.getElementById('pages-per-sheet').options[document.getElementById('pages-per-sheet').selectedIndex].text;
+            
+            document.getElementById('summary-sides').textContent = 
+                document.getElementById('print-sides').options[document.getElementById('print-sides').selectedIndex].text;
+            
+            document.getElementById('summary-booklet').textContent = 
+                document.getElementById('booklet').options[document.getElementById('booklet').selectedIndex].text;
+            
+            document.getElementById('summary-location').textContent = 
+                document.getElementById('delivery-location').options[document.getElementById('delivery-location').selectedIndex].text;
+            
+            // Calculate total (simple example)
+            const copies = parseInt(document.getElementById('copies').value);
+            const printType = document.getElementById('print-type').value;
+            const pagesPerSheet = parseInt(document.getElementById('pages-per-sheet').value);
+            const sides = document.getElementById('print-sides').value;
+            
+            let pricePerCopy = printType === 'bw' ? 0.5 : 2;
+            if (sides === 'double') pricePerCopy *= 1.5;
+            if (pagesPerSheet > 1) pricePerCopy *= 0.7;
+            
+            const total = copies * pricePerCopy;
+            document.getElementById('summary-total').textContent = total.toFixed(2) + ' جنيه';
+        }
+        
+        // Form Submission
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('تم استلام طلبك بنجاح! سيتم التواصل معك قريبًا لتأكيد التفاصيل.');
+            // Here you would typically send the form data to a server
+        });
+        
+        // WhatsApp Button
+        document.querySelector('.whatsapp-btn').addEventListener('click', function() {
+            window.open('https://wa.me/201557686274', '_blank');
+        });
+    </script>
+	
+</body>
+</html>
